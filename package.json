@@ -33,7 +33,7 @@
         "discord",
         "bot",
         "music",
-        "X",
+        "subsonic",
         "discord-player"
     ],
     "devDependencies": {
