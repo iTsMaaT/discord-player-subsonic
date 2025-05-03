@@ -28,6 +28,8 @@ export class SubsonicExtractor extends BaseExtractor<SubsonicExtractorOptions> {
     public static identifier = "com.itsmaat.discord-player.subsonic-extractor";
     public static instance: SubsonicExtractor | null = null;
 
+    private streamUrlRegex = /^(https?:\/\/.*?\/rest\/stream.view\?u=.*&t=.*&s=.*&v=.*&c=.*&id=.*)$/;
+
     async activate(): Promise<void> {
         this.protocols = ["subsonic"];
         SubsonicExtractor.instance = this;
@@ -40,7 +42,7 @@ export class SubsonicExtractor extends BaseExtractor<SubsonicExtractorOptions> {
 
     async validate(query: string): Promise<boolean> {
         if (typeof query !== "string") return false;
-        return !this.isURL(query);
+        return !this.isURL(query) || this.streamUrlRegex.test(query);
     }
 
     async handle(query: string, context: ExtractorSearchContext): Promise<ExtractorInfo> {
