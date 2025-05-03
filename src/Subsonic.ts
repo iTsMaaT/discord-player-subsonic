@@ -89,16 +89,13 @@ export class SubsonicExtractor extends BaseExtractor<SubsonicExtractorOptions> {
         }
 
         const tracks = songs.map((song: SubsonicSong) => {
-            const thumbnail = song.coverArt
-                ? `${host}/rest/getCoverArt.view?u=${username}&t=${token}&s=${salt}&v=1.16.1&c=discord-player&id=${song.coverArt}`
-                : undefined;
 
             return new Track(this.context.player, {
                 title: song.title,
                 description: `${song.title} by ${song.artist}`,
                 author: song.artist,
                 url: `subsonic://${song.id}`,
-                thumbnail,
+                thumbnail: undefined,
                 duration: Util.buildTimeCode(Util.parseMS(song.duration * 1000)),
                 views: 0,
                 requestedBy: context.requestedBy,

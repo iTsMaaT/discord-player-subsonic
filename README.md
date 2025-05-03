@@ -1,11 +1,11 @@
-# Blank Music Extractor
+# Subsonic API Extractor
 
-This is a reworked X extractor inspired from the original one at @discord-player/extractors.
+This is a extractor for your self-hosted Subsonic API.
 
 ## Installation
 
 ```bash
-npm install discord-player-blank
+npm install discord-player-subsonic
 ```
 
 ## Usage
@@ -13,24 +13,24 @@ npm install discord-player-blank
 ```js
 const { Player } = require("discord-player");
 
-const { X } = require("discord-player-blank");
+const { SubsonicExtractor } = require("discord-player-subsonic");
 // Or
-import { X } from "discord-player-blank";
+import { SubsonicExtractor } from "discord-player-blank";
 
 const player = new Player(client, {});
 
-await player.extractors.register(X, { /* options */ });
+await player.extractors.register(SubsonicExtractor, { /* options */ });
 ```
 
 ## Supported features
 
 | Feature | Supported |
 | --- | --- |
-| Single tracks | ✅ |
-| Playlists | ✅ |
+| Single tracks | ❌ |
+| Playlists | ❌ |
 | Search | ✅ |
-| Direct streaming | ❌ |
-| Can be used as a bridge | ❌ |
+| Direct streaming | ✅ |
+| Can be used as a bridge | ✅ |
 | Can bridge to ... | ✅ |
 | Autoplay | ❌ |
 
@@ -38,4 +38,16 @@ await player.extractors.register(X, { /* options */ });
 
 | Option | Type | Default | Required | Description |
 | --- | --- | --- | --- | --- |
-| createStream(ext: AppleMusicExtractor, url: string) => Promise<Readable \| string>; | function | null | No | A function that returns a Readable stream or a string URL to the stream. |
+| `username` | string | | ✅ | Your Subsonic username |
+| `password` | string | | ✅ | Your Subsonic password |
+| `host` | string | | ✅ | The URL of your Subsonic API |
+
+## Example
+
+```js
+await player.extractors.register(SubsonicExtractor, { 
+    username: "username",
+    password: "password",
+    host: "http://localhost:4040",
+ })
+```
