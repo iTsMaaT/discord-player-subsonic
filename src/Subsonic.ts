@@ -91,8 +91,6 @@ export class SubsonicExtractor extends BaseExtractor<SubsonicExtractorOptions> {
         }
 
         const tracks = songs.map((song: SubsonicSong) => {
-            const streamUrl = `${host}/rest/stream.view?u=${username}&t=${token}&s=${salt}&v=1.16.1&c=discord-player&id=${song.id}`;
-            console.log(streamUrl);
             const thumbnail = song.coverArt
                 ? `${host}/rest/getCoverArt.view?u=${username}&t=${token}&s=${salt}&v=1.16.1&c=discord-player&id=${song.coverArt}`
                 : undefined;
