@@ -101,7 +101,7 @@ export class SubsonicExtractor extends BaseExtractor<SubsonicExtractorOptions> {
                 title: song.title,
                 description: `${song.title} by ${song.artist}`,
                 author: song.artist,
-                url: streamUrl,
+                url: `subsonic://${song.id}`,
                 thumbnail,
                 duration: Util.buildTimeCode(Util.parseMS(song.duration * 1000)),
                 views: 0,
@@ -110,6 +110,11 @@ export class SubsonicExtractor extends BaseExtractor<SubsonicExtractorOptions> {
                 metadata: {
                     source: song,
                     bridge: null,
+                },
+                raw: {
+                    id: song.id,
+                    salt,
+                    token, 
                 },
                 requestMetadata: async () => ({
                     source: song,
@@ -122,8 +127,16 @@ export class SubsonicExtractor extends BaseExtractor<SubsonicExtractorOptions> {
     }
 
     async stream(track: Track): Promise<Readable> {
-        const streamUrl = track.url;
+        const { id, token, salt } = track.raw;
+        const { username, host } = this.options;
+    
+        const streamUrl = `${host}/rest/stream.view?u=${username}&t=${token}&s=${salt}&v=1.16.1&c=discord-player&id=${id}`;
         const response = await fetch(streamUrl);
+    
+        if (!response.ok) 
+            throw new Error(`Failed to fetch stream: ${response.statusText}`);
+        
+    
         const buffer = Buffer.from(await response.arrayBuffer());
         return Readable.from(buffer);
     }
