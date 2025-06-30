@@ -8,15 +8,8 @@ import { BaseExtractor,
     Player,
     RawTrackData,
 } from "discord-player";
-import { createReadStream, existsSync } from "fs";
-import type { IncomingMessage } from "http";
-import { stat } from "fs/promises";
-import https, { RequestOptions } from "https";
-import http from "http";
 import crypto from "crypto";
 import { Readable } from "stream";
-import { request as httpRequest } from "http";
-import { request as httpsRequest } from "https";
 
 export interface SubsonicExtractorOptions {
     username: string;
@@ -79,7 +72,6 @@ export class SubsonicExtractor extends BaseExtractor<SubsonicExtractorOptions> {
     
 
         const songs = apiResponse.searchResult2?.song || [];
-        console.log(songs);
         interface SubsonicSong {
             id: string;
             title: string;
